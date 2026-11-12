@@ -1,0 +1,15 @@
+{
+  "name": "offerwall-html5-game",
+  "version": "1.0.0",
+  "description": "Phaser 3 browser game with the Moonetix offerwall: signed link, embed.js pop-up, postback crediting, balance.",
+  "private": true,
+  "license": "MIT",
+  "main": "src/server.js",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "start": "node --env-file=.env --disable-warning=ExperimentalWarning src/server.js",
+    "test": "node --disable-warning=ExperimentalWarning --test"
+  }
+}
