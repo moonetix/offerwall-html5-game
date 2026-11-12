@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Star Catcher</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.90.0/dist/phaser.min.js" integrity="sha384-AvQiDMZAVLda3VtAoU5MCfBz8pzXhteb2CiUJeKBmPlWzpXj1uJ96Km11+YuFNu/" crossorigin="anonymous" defer></script>
+  <script src="https://wall.moonetix.com/embed.js" async></script>
+  <script src="/game.js" defer></script>
+</head>
+<body>
+  <main>
+    <div id="game" role="application" aria-label="Star Catcher. Move with the arrow keys or the pointer. Press E to earn coins."></div>
+  </main>
+  <div id="age-gate" class="gate" hidden>
+    <div class="card" role="dialog" aria-modal="true" aria-labelledby="age-title" aria-describedby="age-text">
+      <h2 id="age-title">Before you earn</h2>
+      <p id="age-text">Offers are for players 16 or older, with a parent's permission under 18. Rewards are added only after the advertiser confirms the offer.</p>
+      <div class="actions">
+        <button type="button" id="age-yes">I am 16 or older</button>
+        <button type="button" id="age-no" class="secondary">Not now</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
