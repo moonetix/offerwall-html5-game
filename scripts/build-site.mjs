@@ -16,6 +16,9 @@
 //   node:crypto and Buffer provided by site/lib/node-crypto.js.
 // - The demo switch is a meta tag this script writes into _site/index.html.
 //   The real server serves public/ only and never sees it.
+// - The server snippet shown under "Use it in your project" is run with Node
+//   against the real src/ and its output is written into the page, so the
+//   snippet and the output it claims cannot drift apart.
 //
 // Node 22 built-ins only (fetch, crypto). Nothing in public/ or src/ changes.
 
@@ -23,6 +26,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
 import crypto from 'node:crypto';
+import { execFileSync } from 'node:child_process';
 import { createRequire } from 'node:module';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
@@ -193,9 +197,37 @@ for (const name of ['moonetix', 'postback']) {
 }
 
 let html = fs.readFileSync(path.join(SITE, 'index.html'), 'utf8');
+
+const phaserVersion = (/phaser@(\d+\.\d+\.\d+)\//.exec(phaserUrl) || [])[1];
+if (!phaserVersion) fail(`no Phaser version in ${phaserUrl}`);
+
+// Runs the snippet from the page the way a reader would: from the repo folder.
+const unescapeHtml = (t) => t.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&');
+const escapeHtml = (t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const snippet = (/<code id="code-server">([\s\S]*?)<\/code>/.exec(html) || [])[1];
+if (!snippet) fail('no server snippet (code-server) in site/index.html');
+let snippetOutput;
+try {
+  snippetOutput = execFileSync(process.execPath, ['--disable-warning=ExperimentalWarning', '-'], {
+    cwd: ROOT,
+    input: unescapeHtml(snippet),
+    encoding: 'utf8',
+    stdio: ['pipe', 'pipe', 'pipe'],
+    timeout: 30000,
+  }).trimEnd();
+} catch (err) {
+  fail(`the server snippet on the page does not run: ${String(err.stderr || err.message).trim().split('\n').pop()}`);
+}
+const snippetLines = snippetOutput.split('\n');
+if (snippetLines.length !== 3 || !snippetLines[0].startsWith('https://wall.moonetix.com/') || !snippetLines[1].includes("'credited'") || !snippetLines[2].includes("'duplicate'")) {
+  fail(`unexpected output from the server snippet on the page:\n${snippetOutput}`);
+}
+
 html = html
   .replace('@@DEMO_FLAG@@', '<meta name="moonetix-demo" content="on">')
   .replace('@@PHASER@@', `<script src="vendor/phaser.min.js" integrity="${integrity}" defer></script>`)
+  .replace('@@PHASER_VERSION@@', phaserVersion)
+  .replace('@@SERVER_OUTPUT@@', () => escapeHtml(snippetOutput))
   .replace('@@AGE_GATE@@', ageGate.replace(/\n  /g, '\n'));
 if (html.includes('@@')) fail('an @@ placeholder is left in index.html');
 fs.writeFileSync(path.join(OUT, 'index.html'), html);
@@ -238,4 +270,4 @@ for (const v of ['0', '7.5', '1.23456', '150', '999999999.999999', '-1', 'x']) {
 }
 
 const kb = (f) => (fs.statSync(path.join(OUT, f)).size / 1024).toFixed(1);
-console.log(`_site built: Phaser ${kb('vendor/phaser.min.js')} KB (integrity ok), ${checked} postback vectors and ${Object.keys(vectors.walls).length} signed links match src/`);
+console.log(`_site built: Phaser ${phaserVersion} ${kb('vendor/phaser.min.js')} KB (integrity ok), ${checked} postback vectors and ${Object.keys(vectors.walls).length} signed links match src/, server snippet ran`);
