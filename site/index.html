@@ -26,6 +26,23 @@
   </div>
 </header>
 
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5L8 5.5z"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="M19 12H5.5M11 6l-6 6 6 6"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="M5 12h13.5M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-coin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7.5 3v5.2c0 4.5-3.1 8.2-7.5 9.8-4.4-1.6-7.5-5.3-7.5-9.8V6L12 3z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></symbol>
+  <symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M11 12l8.5-8.5M16 7l3 3M13.5 9.5l2 2"/></symbol>
+  <symbol id="i-flow" viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="12" r="2.5"/><path d="M6 8.5v7M8.3 7l7.4 3.8M8.3 17l7.4-3.8"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M8.5 6h11.5M8.5 12h11.5M8.5 18h11.5M4 6h.01M4 12h.01M4 18h.01"/></symbol>
+  <symbol id="i-drag" viewBox="0 0 24 24"><path d="M4 12h16M7.5 8.5L4 12l3.5 3.5M16.5 8.5L20 12l-3.5 3.5"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4z"/><path d="M5 17a3 3 0 0 1 3-3h11"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9L12 3.5z"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-bad" viewBox="0 0 24 24"><path d="M12 4l9 16H3L12 4z"/><path d="M12 10v4.5M12 17.5h.01"/></symbol>
+</svg>
+
 <div class="demo-banner">
   <div class="wrap">
     <p><strong>Demo mode.</strong> No server runs here. The offers are made up, and coins are kept only in this browser. <a href="https://github.com/moonetix/offerwall-html5-game#run-it">Set up the real server</a></p>
@@ -37,73 +54,242 @@
     <svg class="orbit" viewBox="0 0 320 320" aria-hidden="true" focusable="false"><circle cx="160" cy="160" r="60" fill="none" stroke="currentColor" stroke-opacity="0.32" stroke-width="1.5"/><circle cx="160" cy="160" r="104" fill="none" stroke="currentColor" stroke-opacity="0.22" stroke-width="1.5"/><circle cx="160" cy="160" r="148" fill="none" stroke="currentColor" stroke-opacity="0.13" stroke-width="1.5"/><circle cx="248.2" cy="104.9" r="6" fill="currentColor"/><circle cx="27.0" cy="95.1" r="5" fill="currentColor"/><circle cx="121.4" cy="206.0" r="4" fill="currentColor"/><circle cx="224.9" cy="293.0" r="4" fill="currentColor"/><path fill="currentColor" fill-rule="evenodd" transform="translate(122.00 122.00) scale(0.1484)" d="M336.3 95.9C319.1 98.4,297.6 107.1,285 116.7C276.3 123.3,265.6 134.8,259.4 144C255.6 149.7,231 197.7,231 199.4C231 199.6,223.9 214,215.3 231.6C194.9 273.3,194.8 273.6,199.2 281.3C204.4 290.3,217 291.4,222.7 283.3C224.9 280.1,260.6 209.7,271.7 186.5C283.1 162.7,300.2 141.3,312.4 135.5C331 126.7,352.7 128.5,376.3 140.8C399.9 153.1,416.7 174.9,423.5 202C425.8 211.1,426.1 236,424.1 245.5C417.7 274.3,403.7 297.7,382.2 315.2C361.3 332.4,337.8 339.6,311.6 337C305.6 336.4,300.5 336.1,300.3 336.3C300 336.6,304 337.8,309.1 339.1L318.5 341.4 337 341.4C357.4 341.5,363.6 340.6,379.5 335.4C426.4 320.2,461.3 281.1,469.5 234.9C471.4 223.8,471.4 201.5,469.4 191C460.9 146.3,422.9 108.4,376 97.9C366.2 95.7,345.4 94.6,336.3 95.9M156 170.4C124.8 175,100.2 187.4,78.4 209.3C55.7 232.1,43.7 257.6,41 288.2C35.9 345.5,73.4 396.9,131.8 412.6C143.6 415.8,166.5 416.9,178.8 415C203.2 411.1,228.2 397.3,243.4 379.3C254.5 366.3,258.1 359.6,290.9 290.5C293 286.1,297.3 277.1,300.4 270.5C303.6 263.9,307.7 255.1,309.7 251C315.9 237.7,315.1 228.7,307.2 223.8C302.5 220.9,293.9 221.5,290.5 225C288 227.6,258.4 286.1,243.9 317.2C233.2 340.2,224.5 353.5,212.5 365.5C199.7 378.3,190.5 381.7,170.5 380.6C132.2 378.7,98.4 349.6,88.4 310C86.9 304.1,86.5 298.9,86.5 286.5L86.5 270.5 89.3 259.6C99.4 220.6,126.8 189.8,161.5 178.1C173.1 174.2,192.4 172.8,206.7 174.8C213.9 175.9,212 174.6,203.5 172.6C187 168.8,171.6 168.1,156 170.4"/></svg>
     <p class="eyebrow">Live demo, open source</p>
     <h1>A Phaser game with an Earn coins button</h1>
-    <p>Catch stars, then press Earn coins. In the real setup the button opens the Moonetix offerwall, and a small Node.js server signs the link and credits coins from signed postbacks. Here the offerwall is a demo panel, and each postback runs through the repo's own <code>src/postback.js</code> in your browser.</p>
+    <p>Catch stars, then press Earn coins. A demo offerwall opens over the game and sends a signed postback, and the repo's own <code>src/postback.js</code> checks it in your browser before the coins are credited.</p>
+    <div class="hero-actions">
+      <a class="btn primary" href="#play"><svg class="ic solid" aria-hidden="true" focusable="false"><use href="#i-play"/></svg>Play the demo</a>
+      <ul class="facts" aria-label="Stack">
+        <li class="chip">Phaser @@PHASER_VERSION@@</li>
+        <li class="chip">Node.js server, no npm packages</li>
+        <li class="chip">MIT license</li>
+      </ul>
+    </div>
   </section>
 
-  <div class="layout">
-    <section class="card play" aria-label="Game">
-      <div id="game" role="application" aria-label="Star Catcher. Move with the arrow keys or the pointer. Press E to earn coins."></div>
-      <p class="small muted hint">Move with the arrow keys or the pointer. Press <kbd>E</kbd> or click Earn coins in the game.</p>
-    </section>
+  <section class="sec" aria-labelledby="uses-title">
+    <div class="sec-head">
+      <h2 id="uses-title">What it is for</h2>
+      <p>Three things this example shows for a web game with a coin balance.</p>
+    </div>
+    <ul class="use-grid">
+      <li class="card use">
+        <div class="use-head"><span class="tile"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-coin"/></svg></span><h3>Add an Earn coins button</h3></div>
+        <p>Open the Moonetix offerwall in a pop-up over your web game with one script tag and one <code>Moonetix.open</code> call, so players stay on the page.</p>
+      </li>
+      <li class="card use">
+        <div class="use-head"><span class="tile"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg></span><h3>Credit coins from postbacks</h3></div>
+        <p>Copy the server: it checks each signed postback, credits a transaction once and takes back exactly that amount on a reversal.</p>
+      </li>
+      <li class="card use">
+        <div class="use-head"><span class="tile"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-key"/></svg></span><h3>Keep the keys off the client</h3></div>
+        <p>The server signs the offerwall link for the signed-in player. The game only reads the balance and never adds coins itself.</p>
+      </li>
+    </ul>
+  </section>
 
-    <div class="side">
-      <section class="card" aria-labelledby="how-title">
-        <h2 id="how-title">What happens on Earn coins</h2>
-        <ol class="how">
-          <li>The first time, the player confirms they are 16 or older and gets a guest sign-in.</li>
-          <li>The server signs the offerwall link for that player with the link hash salt.</li>
-          <li>The offerwall opens over the game. The player completes an offer.</li>
-          <li>Moonetix sends a signed postback. The server checks the hash and credits each transaction once.</li>
-          <li>The game reads the new balance. It never adds coins itself.</li>
+  <section class="sec" id="play" aria-labelledby="play-title">
+    <div class="sec-head">
+      <h2 id="play-title">Play, then earn</h2>
+      <p>Move the basket to catch stars. Earn coins opens a demo offerwall with made-up offers: complete one and watch the postback arrive, the hash check pass and the balance go up.</p>
+    </div>
+    <div class="layout">
+      <section class="card balance" id="balance" aria-labelledby="bal-title">
+        <span class="tile coin"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-coin"/></svg></span>
+        <div class="bal-text">
+          <h3 id="bal-title">Coin balance</h3>
+          <p class="bal-value" role="status"><span id="bal-num">0</span> <span id="bal-cur">Coins</span> <span class="bal-delta" id="bal-delta" hidden></span></p>
+        </div>
+        <p class="small muted bal-note" id="bal-note">No player yet. The first Earn coins creates a guest player.</p>
+      </section>
+
+      <section class="card play" aria-label="Game">
+        <div class="stage" id="stage">
+          <div id="game" role="application" aria-label="Star Catcher. Move with the arrow keys or the pointer. Press E to earn coins."></div>
+          <p class="play-hint" id="play-hint"><span class="play-pill"><span class="play-ic"><svg class="ic solid" aria-hidden="true" focusable="false"><use href="#i-play"/></svg></span><span><strong>Play</strong> Catch the falling stars</span></span></p>
+        </div>
+        <div class="pad" role="group" aria-label="Game controls">
+          <button type="button" class="btn pad-btn" id="pad-left" aria-label="Move left"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-left"/></svg></button>
+          <button type="button" class="btn primary pad-earn" id="pad-earn"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-coin"/></svg>Earn coins</button>
+          <button type="button" class="btn pad-btn" id="pad-right" aria-label="Move right"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-right"/></svg></button>
+        </div>
+        <ul class="keys" aria-label="Controls">
+          <li><span class="keys-k"><kbd><svg class="ic" role="img" aria-label="Left arrow" focusable="false"><use href="#i-left"/></svg></kbd><kbd><svg class="ic" role="img" aria-label="Right arrow" focusable="false"><use href="#i-right"/></svg></kbd></span>Move</li>
+          <li><span class="keys-k"><kbd>E</kbd></span>Earn coins</li>
+          <li><span class="keys-k"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-drag"/></svg></span>Touch or mouse: drag over the game</li>
+        </ul>
+
+        <div id="wall" class="wall" hidden>
+          <div class="wall-panel" role="dialog" aria-modal="true" aria-labelledby="wall-title" aria-describedby="wall-text">
+            <div class="wall-head">
+              <h2 id="wall-title">Demo offerwall</h2>
+              <button type="button" class="btn" id="wall-close">Close</button>
+            </div>
+            <p class="small muted" id="wall-text">Made-up offers for this demo. Completing one sends a signed postback, the same way a real offer does.</p>
+            <p class="small link-line">Signed link for player <span id="wall-user"></span>: <code id="wall-link"></code></p>
+            <ul class="offers" id="offers"></ul>
+            <section class="flow" id="flow" hidden aria-labelledby="flow-title">
+              <h3 id="flow-title"></h3>
+              <ol class="rail" aria-hidden="true">
+                <li data-step="1"><span class="num">1</span><span>Sign-in</span></li>
+                <li data-step="2"><span class="num">2</span><span>Signed link</span></li>
+                <li data-step="3"><span class="num">3</span><span>Offer</span></li>
+                <li data-step="4"><span class="num">4</span><span>Postback</span></li>
+                <li data-step="5"><span class="num">5</span><span>Balance</span></li>
+              </ol>
+              <ol class="steps" id="steps" aria-live="polite"></ol>
+              <ul class="extra" id="extra" aria-live="polite"></ul>
+              <div class="flow-actions" id="flow-actions" hidden>
+                <button type="button" class="btn" id="again">Send the same postback again</button>
+                <button type="button" class="btn" id="forged">Send a forged postback</button>
+                <button type="button" class="btn primary" id="back">Back to offers</button>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <section class="card flowcard" aria-labelledby="how-title">
+        <div class="card-head">
+          <span class="tile"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-flow"/></svg></span>
+          <h3 id="how-title">What happens on Earn coins</h3>
+          <p class="muted small">The steps light up while you complete a demo offer.</p>
+        </div>
+        <ol class="flowmap" id="flowmap">
+          <li class="node" data-step="1">
+            <span class="num" aria-hidden="true">1</span>
+            <div class="node-body"><span class="who">Game page</span><h4>Age check and guest sign-in</h4><p>The first time, the player confirms they are 16 or older and gets a guest sign-in.</p></div>
+            <span class="node-tag"></span>
+          </li>
+          <li class="node" data-step="2">
+            <span class="num" aria-hidden="true">2</span>
+            <div class="node-body"><span class="who">Your server</span><h4>The link is signed</h4><p>The server signs the offerwall link for that player with the link hash salt.</p></div>
+            <span class="node-tag"></span>
+          </li>
+          <li class="node" data-step="3">
+            <span class="num" aria-hidden="true">3</span>
+            <div class="node-body"><span class="who">Moonetix offerwall</span><h4>The player completes an offer</h4><p>The offerwall opens over the game. The player completes an offer.</p></div>
+            <span class="node-tag"></span>
+          </li>
+          <li class="node" data-step="4">
+            <span class="num" aria-hidden="true">4</span>
+            <div class="node-body"><span class="who">Your server</span><h4>Signed postback, credited once</h4><p>Moonetix sends a signed postback. The server checks the hash and credits each transaction once.</p></div>
+            <span class="node-tag"></span>
+          </li>
+          <li class="node" data-step="5">
+            <span class="num" aria-hidden="true">5</span>
+            <div class="node-body"><span class="who">Game page</span><h4>The game reads the balance</h4><p>The game reads the new balance. It never adds coins itself.</p></div>
+            <span class="node-tag"></span>
+          </li>
         </ol>
         <p class="small muted">In demo mode a script on this page stands in for the server, with fake keys. On your site the salt and the postback key stay on the server.</p>
       </section>
 
-      <section class="card" aria-labelledby="log-title">
-        <div class="card-head">
-          <h2 id="log-title">Postback log</h2>
+      <section class="card logcard" aria-labelledby="log-title">
+        <div class="log-head">
+          <span class="tile"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-list"/></svg></span>
+          <h3 id="log-title">Postback log</h3>
           <button type="button" class="btn small-btn" id="reset">Reset demo</button>
         </div>
         <ul class="log" id="log" aria-live="polite"></ul>
-        <p class="small muted" id="log-empty">No postbacks yet. Complete an offer to see one.</p>
+        <p class="empty" id="log-empty">No postbacks yet. Complete an offer to see one.</p>
       </section>
+    </div>
+  </section>
 
-      <section class="card" aria-labelledby="run-title">
-        <h2 id="run-title">Run it with the real server</h2>
-        <p class="small muted">Node.js 22.13 or later, no npm packages, and an approved Moonetix app.</p>
-<pre><code>git clone https://github.com/moonetix/offerwall-html5-game.git
+  <section class="sec" id="use" aria-labelledby="use-title">
+    <div class="sec-head">
+      <h2 id="use-title">Use it in your project</h2>
+      <p>Clone the example, put in your keys and swap in your own game. The server is plain Node.js with no npm packages.</p>
+    </div>
+    <div class="card code">
+      <div class="tabs" role="tablist" aria-label="Part">
+        <button type="button" class="tab" role="tab" id="tab-run" aria-controls="panel-run" aria-selected="true">Run it</button>
+        <button type="button" class="tab" role="tab" id="tab-server" aria-controls="panel-server" aria-selected="false" tabindex="-1">Server</button>
+        <button type="button" class="tab" role="tab" id="tab-page" aria-controls="panel-page" aria-selected="false" tabindex="-1">Game page</button>
+      </div>
+      <div class="panel" role="tabpanel" id="panel-run" aria-labelledby="tab-run" tabindex="0">
+        <p class="small">Node.js 22.13 or later. The example starts with the test keys from <code>.env.example</code>, and real offers need an approved Moonetix app.</p>
+        <div class="codeblock">
+          <div class="cb-bar"><span>Terminal</span><button type="button" class="copy" data-copy="code-run"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-copy"/></svg><span class="copy-label">Copy</span></button></div>
+<pre><code id="code-run">git clone https://github.com/moonetix/offerwall-html5-game.git
 cd offerwall-html5-game
 cp .env.example .env
 npm start</code></pre>
-        <p class="small">Put your App ID, link hash salt and postback secret key in <code>.env</code>. The <a href="https://github.com/moonetix/offerwall-html5-game#run-it">README</a> has the postback URL to save and a test checklist.</p>
-      </section>
+        </div>
+        <p class="small">Put your App ID, link hash salt and postback secret key in <code>.env</code>, then save this postback URL on the Postback page of your dashboard:</p>
+        <div class="codeblock">
+          <div class="cb-bar"><span>Postback URL</span><button type="button" class="copy" data-copy="code-postback"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-copy"/></svg><span class="copy-label">Copy</span></button></div>
+<pre><code id="code-postback">https://YOUR_HOST/moonetix/postback?user={user_id}&amp;tx={transaction_id}&amp;event={event_id}&amp;status={status}&amp;reward={reward}&amp;payout={payout}&amp;offer={offer_name}&amp;hash={hash}</code></pre>
+        </div>
+        <p class="small muted">The game runs on <code>http://localhost:3000</code>. The <a href="https://github.com/moonetix/offerwall-html5-game#run-it">README</a> has the settings table and a checklist for a real test postback.</p>
+      </div>
+      <div class="panel" role="tabpanel" id="panel-server" aria-labelledby="tab-server" tabindex="0" hidden>
+        <p class="small">The two calls your server makes: sign the offerwall link for a player, and handle the postback. Save this in the repo folder and run it with <code>node try.js</code>. It uses the test keys and an in-memory database.</p>
+        <div class="codeblock">
+          <div class="cb-bar"><span>try.js</span><button type="button" class="copy" data-copy="code-server"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-copy"/></svg><span class="copy-label">Copy</span></button></div>
+<pre><code id="code-server">const { buildWallLink, postbackHash } = require('./src/moonetix');
+const { handlePostback } = require('./src/postback');
+const { openStore } = require('./src/store');
+
+const store = openStore(':memory:');
+const user = String(store.createPlayer().id);
+
+console.log(buildWallLink({ appId: 'demoapp0000000000000001', linkSalt: 'test_link_salt_not_secret', userId: user }));
+
+const postbackKey = 'test_postback_key_not_secret';
+const params = new URLSearchParams({ tx: 'tx_1001', user, reward: '150', status: '1' });
+params.set('hash', postbackHash(postbackKey, 'tx_1001', user, '150', '1'));
+
+console.log(handlePostback(params, { postbackKey, store }));
+console.log(handlePostback(params, { postbackKey, store }));</code></pre>
+        </div>
+        <div class="codeblock out">
+          <div class="cb-bar"><span>Output</span></div>
+<pre><code id="out-server">@@SERVER_OUTPUT@@</code></pre>
+        </div>
+        <p class="small muted">The second call is the same postback again: the transaction is already stored, so nothing is credited twice. A wrong hash gets <code>403 invalid hash</code> before anything else runs.</p>
+      </div>
+      <div class="panel" role="tabpanel" id="panel-page" aria-labelledby="tab-page" tabindex="0" hidden>
+        <p class="small">One script tag and one call. The page asks its own server for the signed link, checks where it points and opens the pop-up.</p>
+        <div class="codeblock">
+          <div class="cb-bar"><span>HTML</span><button type="button" class="copy" data-copy="code-embed"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-copy"/></svg><span class="copy-label">Copy</span></button></div>
+<pre><code id="code-embed">&lt;script src="https://wall.moonetix.com/embed.js" async&gt;&lt;/script&gt;</code></pre>
+        </div>
+        <div class="codeblock">
+          <div class="cb-bar"><span>JavaScript</span><button type="button" class="copy" data-copy="code-page"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-copy"/></svg><span class="copy-label">Copy</span></button></div>
+<pre><code id="code-page">const res = await fetch('/api/offerwall-link', { headers: { Authorization: `Bearer ${token}` } });
+const { url } = await res.json();
+if (url.startsWith('https://wall.moonetix.com/')) Moonetix.open(url);</code></pre>
+        </div>
+        <p class="small muted"><code>token</code> is the player's sign-in token. The pop-up loads only on https pages of the website registered for your app. On <code>http://localhost</code> the example opens the same link in a new tab instead.</p>
+      </div>
     </div>
-  </div>
+  </section>
+
+  <section class="guide card" aria-labelledby="guide-title">
+    <div class="guide-text">
+      <p class="kicker"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-book"/></svg>Moonetix Academy</p>
+      <h2 id="guide-title">How to Monetize an HTML5 Web Game</h2>
+      <p class="muted">The guide compares the ways a web game can earn: game portals, itch.io, ads and an offerwall on your own site, licensing and Steam, and what each one allows.</p>
+    </div>
+    <a class="btn" href="https://moonetix.com/academy/monetization/monetize-html5-web-game?from=github-pages-offerwall-html5-game">Read the guide</a>
+  </section>
+  <p id="live" class="sr-only" role="status" aria-live="polite"></p>
 </main>
 
 @@AGE_GATE@@
 
-<div id="wall" class="wall" hidden>
-  <div class="wall-panel" role="dialog" aria-modal="true" aria-labelledby="wall-title" aria-describedby="wall-text">
-    <div class="wall-head">
-      <h2 id="wall-title">Demo offerwall</h2>
-      <button type="button" class="btn" id="wall-close">Close</button>
+<section class="band" aria-labelledby="band-title">
+  <div class="wrap">
+    <div class="band-text">
+      <h2 id="band-title">Made by Moonetix</h2>
+      <p>Moonetix is an affiliate network for publishers: add its offerwall to your game, app, site or community, and your players earn your own currency by completing offers.</p>
     </div>
-    <p class="small muted" id="wall-text">Made-up offers for this demo. Completing one sends a signed postback, the same way a real offer does.</p>
-    <p class="small link-line">Signed link for player <span id="wall-user"></span>: <code id="wall-link"></code></p>
-    <ul class="offers" id="offers"></ul>
-    <section class="flow" id="flow" hidden aria-labelledby="flow-title">
-      <h3 id="flow-title"></h3>
-      <ol class="steps" id="steps" aria-live="polite"></ol>
-      <ul class="extra" id="extra" aria-live="polite"></ul>
-      <div class="flow-actions" id="flow-actions" hidden>
-        <button type="button" class="btn" id="again">Send the same postback again</button>
-        <button type="button" class="btn" id="forged">Send a forged postback</button>
-        <button type="button" class="btn primary" id="back">Back to offers</button>
-      </div>
-    </section>
+    <div class="band-actions">
+      <a class="btn" href="https://github.com/moonetix/offerwall-html5-game"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-star"/></svg>Star on GitHub</a>
+      <a class="btn primary" href="https://moonetix.com/register?from=github-pages-offerwall-html5-game">Sign up free</a>
+    </div>
   </div>
-</div>
+</section>
 
 <footer class="foot">
   <div class="wrap">

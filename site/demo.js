@@ -1,6 +1,7 @@
 import { buildWallLink, postbackHash, formatAmount, WALL_BASE } from './lib/moonetix.js';
 import { handlePostback } from './lib/postback.js';
 import { createDemoStore, emptyState } from './demo-store.js';
+import { initUi } from './ui.js';
 
 const flag = typeof document === 'undefined' ? null : document.querySelector('meta[name="moonetix-demo"]');
 
@@ -48,7 +49,7 @@ function ageConfirmed(body) {
   return v === true || v === 'true' || v === '1';
 }
 
-export function createDemoServer(store, config = DEMO_CONFIG) {
+export function createDemoServer(store, config = DEMO_CONFIG, notify = () => {}) {
   return async function route(url, init = {}) {
     const method = (init.method || 'GET').toUpperCase();
     const auth = new Headers(init.headers || {}).get('Authorization') || '';
@@ -64,6 +65,7 @@ export function createDemoServer(store, config = DEMO_CONFIG) {
       }
       if (!ageConfirmed(body)) return json(400, { error: 'age_confirmation_required' });
       const player = store.createPlayer();
+      notify('player', player.id);
       return json(201, { token: player.token, player_id: player.id });
     }
 
@@ -72,9 +74,11 @@ export function createDemoServer(store, config = DEMO_CONFIG) {
       const player = store.findPlayerByToken(token);
       if (!player) return json(401, { error: 'sign_in_required' });
       if (url.pathname === '/api/balance') {
+        notify('balance', player.id);
         return json(200, { player_id: player.id, balance: formatAmount(player.balance_micro), currency: config.currencyName });
       }
       const link = buildWallLink({ appId: config.appId, linkSalt: config.linkSalt, userId: String(player.id), subs: { sub1: 'html5' } });
+      notify('link', player.id);
       return json(200, { url: link });
     }
 
@@ -88,9 +92,61 @@ export function signedPostback({ tx, user, reward, status, offer }, postbackKey 
   return params;
 }
 
+const STEP_TAG = { on: 'Now', done: 'Done' };
+
+function setStep(n, state) {
+  for (const node of document.querySelectorAll(`[data-step="${n}"]`)) {
+    node.classList.toggle('on', state === 'on');
+    node.classList.toggle('done', state === 'done');
+    if (state === 'on') node.setAttribute('aria-current', 'step');
+    else node.removeAttribute('aria-current');
+    const tag = node.querySelector('.node-tag');
+    if (tag) tag.textContent = STEP_TAG[state] || '';
+  }
+}
+
 function install() {
   const store = createDemoStore(load(STATE_KEY, emptyState()), () => save(STATE_KEY, store.state));
-  const route = createDemoServer(store);
+  let playerId = null;
+  let shownMicro = null;
+  let bumpTimer = 0;
+  let pendingRead = false;
+  let offerDone = false;
+
+  function renderBalance() {
+    const p = playerId === null ? null : store.getPlayer(playerId);
+    const micro = p ? p.balance_micro : 0;
+    document.getElementById('bal-num').textContent = formatAmount(micro);
+    document.getElementById('bal-cur').textContent = DEMO_CONFIG.currencyName;
+    document.getElementById('bal-note').textContent = p
+      ? 'Player ' + p.id + '. Kept by the demo server in this browser. The game only reads it.'
+      : 'No player yet. The first Earn coins creates a guest player.';
+    if (!p) return;
+    if (shownMicro !== null && micro !== shownMicro) {
+      const diff = micro - shownMicro;
+      const delta = document.getElementById('bal-delta');
+      delta.textContent = (diff > 0 ? '+' : '') + formatAmount(diff);
+      delta.hidden = false;
+      document.getElementById('balance').classList.add('bump');
+      clearTimeout(bumpTimer);
+      bumpTimer = setTimeout(() => {
+        document.getElementById('balance').classList.remove('bump');
+        delta.hidden = true;
+      }, 5000);
+    }
+    shownMicro = micro;
+  }
+
+  const route = createDemoServer(store, DEMO_CONFIG, (event, id) => {
+    playerId = id;
+    setStep(1, 'done');
+    if (event === 'link') setStep(2, 'done');
+    if (event === 'balance' && pendingRead) {
+      pendingRead = false;
+      setStep(5, 'done');
+    }
+    renderBalance();
+  });
   const realFetch = window.fetch.bind(window);
   window.fetch = (input, init) => {
     const url = new URL(typeof input === 'string' ? input : input.url, location.href);
@@ -150,13 +206,18 @@ function install() {
     $('log-empty').hidden = log.length > 0;
   }
 
-  function post(params) {
+  function gameReadsBalance() {
+    window.dispatchEvent(new Event('focus'));
+  }
+
+  function post(params, readNow = true) {
     const res = handlePostback(params, { postbackKey: DEMO_CONFIG.postbackKey, store });
     log.push({ tx: params.get('tx'), user: params.get('user'), status: params.get('status'), reward: params.get('reward'), code: res.code, body: res.body });
     log = log.slice(-50);
     save(LOG_KEY, log);
     renderLog();
-    window.dispatchEvent(new Event('focus'));
+    renderBalance();
+    if (readNow) gameReadsBalance();
     return res;
   }
 
@@ -197,8 +258,14 @@ function install() {
     $('flow-actions').hidden = true;
     const before = store.getPlayer(Number(player));
 
+    offerDone = true;
+    pendingRead = false;
+    setStep(3, 'done');
+    setStep(4, '');
+    setStep(5, '');
     step('1. Offer completed', 'The advertiser confirms the offer to Moonetix, which records transaction ' + tx + '.');
     await wait(700);
+    setStep(4, 'on');
     step(
       '2. Signed postback sent',
       'Moonetix calls your postback URL. The hash is an HMAC-SHA256 of tx:user:reward:status with your postback secret key.',
@@ -206,9 +273,17 @@ function install() {
     );
     await wait(900);
     const balanceBefore = before ? before.balance_micro : 0;
-    const res = post(params);
+    const res = post(params, false);
+    if (res.body === 'credited') {
+      setStep(4, 'done');
+      setStep(5, 'on');
+      pendingRead = true;
+    } else {
+      setStep(4, '');
+    }
     step('3. Server verifies the hash', 'The hash matches, so handlePostback() goes on. It answered ' + res.code + ' ' + res.body + '.');
     await wait(700);
+    gameReadsBalance();
     const after = store.getPlayer(Number(player));
     if (res.body === 'credited') {
       step(
@@ -259,6 +334,11 @@ function install() {
     $('wall-user').textContent = player;
     $('wall-link').textContent = link;
     showOffers();
+    offerDone = false;
+    pendingRead = false;
+    setStep(3, 'on');
+    setStep(4, '');
+    setStep(5, '');
     lastFocus = document.activeElement;
     wall.hidden = false;
     document.body.classList.add('locked');
@@ -268,6 +348,7 @@ function install() {
   function closeWall() {
     if (busy) return;
     wall.hidden = true;
+    if (!offerDone) setStep(3, '');
     document.body.classList.remove('locked');
     if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
@@ -303,6 +384,8 @@ function install() {
   });
 
   renderLog();
+  renderBalance();
+  initUi();
 }
 
 if (flag && flag.content === 'on') install();
