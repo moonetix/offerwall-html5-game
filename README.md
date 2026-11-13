@@ -9,8 +9,11 @@
 [![Get keys](https://img.shields.io/badge/get%20keys-moonetix.com-004ABB)](https://moonetix.com/register?from=github-offerwall-html5-game)
 [![Phaser](https://img.shields.io/badge/Phaser-3.90.0-8a2be2)](https://moonetix.com/academy/monetization/monetize-html5-web-game)
 [![Zero dependencies](https://img.shields.io/badge/dependencies-zero-brightgreen)](https://moonetix.com/industries/games)
+[![Live demo](https://img.shields.io/badge/live%20demo-moonetix.github.io-004ABB)](https://moonetix.github.io/offerwall-html5-game/)
 
 Star Catcher is a tiny [Phaser](https://phaser.io) game. A Node.js server signs the [Moonetix](https://moonetix.com) offerwall link, credits coins from postbacks and returns the balance. Earn coins opens the offerwall with `Moonetix.open(link)` from `https://wall.moonetix.com/embed.js`, so players never leave the page.
+
+The [live demo](https://moonetix.github.io/offerwall-html5-game/) runs the same game without a server: the offers are made up, and each postback goes through `src/postback.js` in your browser so you can watch the hash check and the credit-once rule.
 
 Moonetix is an affiliate network. Players earn your coins by completing offers, and you earn per completed offer. **App ID and keys: [moonetix.com/register](https://moonetix.com/register?from=github-offerwall-html5-game).**
 
