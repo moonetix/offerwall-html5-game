@@ -118,8 +118,6 @@ function install() {
     const micro = p ? p.balance_micro : 0;
     document.getElementById('bal-num').textContent = formatAmount(micro);
     document.getElementById('bal-cur').textContent = DEMO_CONFIG.currencyName;
-    document.getElementById('pv-num').textContent = formatAmount(micro);
-    document.getElementById('pv-cur').textContent = DEMO_CONFIG.currencyName;
     document.getElementById('bal-note').textContent = p
       ? 'Player ' + p.id + '. Kept by the demo server in this browser. The game only reads it.'
       : 'No player yet. The first Earn coins creates a guest player.';
@@ -228,12 +226,12 @@ function install() {
     $('offers').hidden = false;
     $('offers').replaceChildren(
       ...OFFERS.map((o) => {
-        const button = el('button', { type: 'button', class: 'btn primary' }, 'Complete offer');
+        const button = el('button', { type: 'button', class: 'btn' }, 'Complete offer');
         button.addEventListener('click', () => complete(o));
         return el(
           'li',
           { class: 'offer' },
-          el('div', {}, el('h3', {}, o.title), el('p', { class: 'small muted' }, o.about)),
+          el('div', {}, el('h3', {}, o.title), el('p', { class: 'muted' }, o.about)),
           el('div', { class: 'offer-act' }, el('span', { class: 'reward' }, '+' + o.reward + ' ' + DEMO_CONFIG.currencyName), button),
         );
       }),
@@ -241,7 +239,7 @@ function install() {
   }
 
   function step(title, ...detail) {
-    const li = el('li', { class: 'step' }, el('strong', {}, title), ...detail.map((d) => (typeof d === 'string' ? el('p', { class: 'small' }, d) : d)));
+    const li = el('li', { class: 'step' }, el('strong', {}, title), ...detail.map((d) => (typeof d === 'string' ? el('p', {}, d) : d)));
     $('steps').append(li);
     return li;
   }
@@ -271,7 +269,7 @@ function install() {
     step(
       '2. Signed postback sent',
       'Moonetix calls your postback URL. The hash is an HMAC-SHA256 of tx:user:reward:status with your postback secret key.',
-      el('pre', {}, el('code', {}, 'GET /moonetix/postback?' + params.toString())),
+      el('pre', { class: 'code' }, el('code', {}, 'GET /moonetix/postback?' + params.toString())),
     );
     await wait(900);
     const balanceBefore = before ? before.balance_micro : 0;
@@ -376,33 +374,6 @@ function install() {
     }
   });
 
-  function heroStill() {
-    const still = $('pv-still');
-    const ctx = still.getContext('2d');
-    let tries = 0;
-    const later = (fn, ms) => {
-      if (++tries <= 40) setTimeout(fn, ms);
-    };
-    const grab = () => {
-      const source = document.querySelector('#game canvas');
-      requestAnimationFrame(() => {
-        ctx.clearRect(0, 0, still.width, still.height);
-        ctx.drawImage(source, 0, 0, still.width, still.height);
-        const [r, g, b, a] = ctx.getImageData(still.width >> 1, still.height >> 1, 1, 1).data;
-        if (a === 0 || r + g + b === 0) later(grab, 300);
-      });
-    };
-    const start = () => {
-      if (document.querySelector('#game canvas')) {
-        setTimeout(grab, 300);
-        setTimeout(grab, 2400);
-      } else {
-        later(start, 300);
-      }
-    };
-    start();
-  }
-
   $('reset').addEventListener('click', () => {
     try {
       for (const k of [STATE_KEY, LOG_KEY, TOKEN_KEY]) localStorage.removeItem(k);
@@ -414,7 +385,6 @@ function install() {
 
   renderLog();
   renderBalance();
-  heroStill();
   initUi();
 }
 

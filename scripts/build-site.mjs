@@ -16,6 +16,8 @@
 //   node:crypto and Buffer provided by site/lib/node-crypto.js.
 // - The demo switch is a meta tag this script writes into _site/index.html.
 //   The real server serves public/ only and never sees it.
+// - The facts at the top of the page (Phaser version, rewards, test vectors,
+//   Node version, commit) are filled in here from the code they describe.
 // - The server snippet shown under "Use it in your project" is run with Node
 //   against the real src/ and its output is written into the page, so the
 //   snippet and the output it claims cannot drift apart.
@@ -223,21 +225,13 @@ if (snippetLines.length !== 3 || !snippetLines[0].startsWith('https://wall.moone
   fail(`unexpected output from the server snippet on the page:\n${snippetOutput}`);
 }
 
-html = html
-  .replace('@@DEMO_FLAG@@', '<meta name="moonetix-demo" content="on">')
-  .replace('@@PHASER@@', `<script src="vendor/phaser.min.js" integrity="${integrity}" defer></script>`)
-  .replace('@@PHASER_VERSION@@', phaserVersion)
-  .replace('@@SERVER_OUTPUT@@', () => escapeHtml(snippetOutput))
-  .replace('@@AGE_GATE@@', ageGate.replace(/\n  /g, '\n'));
-if (html.includes('@@')) fail('an @@ placeholder is left in index.html');
-fs.writeFileSync(path.join(OUT, 'index.html'), html);
-
 // The browser modules must answer exactly like the Node ones.
 const typeFile = path.join(OUT, 'package.json');
 fs.writeFileSync(typeFile, '{"type":"module"}\n');
 const web = await import(pathToFileURL(path.join(OUT, 'lib', 'moonetix.js')).href);
 const webPostback = await import(pathToFileURL(path.join(OUT, 'lib', 'postback.js')).href);
 const { createDemoStore } = await import(pathToFileURL(path.join(OUT, 'demo-store.js')).href);
+const { OFFERS, DEMO_CONFIG } = await import(pathToFileURL(path.join(OUT, 'demo.js')).href);
 fs.rmSync(typeFile);
 
 const node = require(path.join(ROOT, 'src', 'moonetix.js'));
@@ -268,6 +262,38 @@ for (const [name, url] of Object.entries(vectors.postbacks)) {
 for (const v of ['0', '7.5', '1.23456', '150', '999999999.999999', '-1', 'x']) {
   if (web.parseAmount(v) !== node.parseAmount(v)) fail(`browser parseAmount differs on ${v}`);
 }
+
+// The facts in the page header, each taken from the code it describes.
+const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
+const engine = /^>=\s*(\d+\.\d+(?:\.\d+)?)$/.exec((pkg.engines && pkg.engines.node) || '');
+if (!engine) fail(`package.json engines.node is not a ">=" version: ${JSON.stringify(pkg.engines)}`);
+const packages = Object.keys({ ...pkg.dependencies, ...pkg.optionalDependencies }).length;
+const rewards = OFFERS.map((o) => Number(o.reward));
+if (!rewards.length || rewards.some((r) => !(r > 0))) fail('the demo offers in site/demo.js have no positive rewards');
+const sha = process.env.GITHUB_SHA || '';
+if (sha && !/^[0-9a-f]{40}$/.test(sha)) fail(`GITHUB_SHA ${JSON.stringify(sha)} is not a commit hash`);
+const facts = {
+  REWARD_RANGE: `${Math.min(...rewards)} to ${Math.max(...rewards)} ${DEMO_CONFIG.currencyName}`,
+  VECTORS: checked,
+  NODE_ENGINE: `${engine[1]} or later`,
+  PACKAGES: packages === 0 ? 'no npm packages' : `${packages} npm ${packages === 1 ? 'package' : 'packages'}`,
+  BUILT: new Date().toISOString().slice(0, 10),
+  NODE: process.version,
+  COMMIT: sha ? `<a class="mono" href="https://github.com/moonetix/offerwall-html5-game/commit/${sha}">${sha.slice(0, 7)}</a>` : 'local build',
+};
+for (const [name, value] of Object.entries(facts)) {
+  if (value === undefined || value === null || value === '' || String(value).includes('NaN') || String(value).includes('undefined')) fail(`no value for @@${name}@@`);
+}
+
+html = html
+  .replace('@@DEMO_FLAG@@', '<meta name="moonetix-demo" content="on">')
+  .replace('@@PHASER@@', `<script src="vendor/phaser.min.js" integrity="${integrity}" defer></script>`)
+  .replace('@@PHASER_VERSION@@', phaserVersion)
+  .replace('@@SERVER_OUTPUT@@', () => escapeHtml(snippetOutput))
+  .replace('@@AGE_GATE@@', ageGate.replace(/\n  /g, '\n'));
+for (const [name, value] of Object.entries(facts)) html = html.replaceAll(`@@${name}@@`, () => String(value));
+if (html.includes('@@')) fail('an @@ placeholder is left in index.html');
+fs.writeFileSync(path.join(OUT, 'index.html'), html);
 
 const kb = (f) => (fs.statSync(path.join(OUT, f)).size / 1024).toFixed(1);
 console.log(`_site built: Phaser ${phaserVersion} ${kb('vendor/phaser.min.js')} KB (integrity ok), ${checked} postback vectors and ${Object.keys(vectors.walls).length} signed links match src/, server snippet ran`);

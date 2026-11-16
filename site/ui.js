@@ -121,19 +121,16 @@ async function writeClipboard(text) {
 }
 
 function flash(btn, ok) {
-  const label = btn.querySelector('.copy-label');
-  if (!btn.dataset.label) btn.dataset.label = label.textContent;
-  label.textContent = ok ? 'Copied' : 'Copy failed';
+  if (!btn.dataset.label) btn.dataset.label = btn.textContent;
+  btn.textContent = ok ? 'Copied' : 'Copying is blocked';
   btn.classList.toggle('done', ok);
   btn.classList.toggle('fail', !ok);
-  btn.querySelector('use').setAttribute('href', ok ? '#i-check' : '#i-bad');
   clearTimeout(timers.get(btn));
   timers.set(
     btn,
     setTimeout(() => {
-      label.textContent = btn.dataset.label;
+      btn.textContent = btn.dataset.label;
       btn.classList.remove('done', 'fail');
-      btn.querySelector('use').setAttribute('href', '#i-copy');
     }, 2000),
   );
 }
